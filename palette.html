@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Palette — Reconnexion à soi (réglage couleurs)</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#171311;--card:#211b18;--line:#372d27;--txt:#efe6da;--soft:#b6a895;--gold:#caa163}
+  body{font-family:'Hanken Grotesk',system-ui,sans-serif;background:var(--bg);color:var(--txt);height:100svh;display:grid;grid-template-columns:340px 1fr;overflow:hidden}
+  /* Panneau */
+  .panel{background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+  .ph{padding:16px 18px;border-bottom:1px solid var(--line)}
+  .ph h1{font-size:1.05rem;font-weight:700}
+  .ph p{font-size:.82rem;color:var(--soft);margin-top:3px}
+  .ctrls{padding:10px 14px;overflow:auto;flex:1;min-height:0}
+  .row{display:flex;align-items:center;gap:12px;padding:9px 6px;border-radius:10px}
+  .row:hover{background:rgba(255,255,255,.03)}
+  .row label{flex:1;font-size:.9rem;font-weight:500}
+  .row label small{display:block;color:var(--soft);font-size:.72rem;font-weight:400}
+  .row input[type=color]{width:42px;height:34px;border:1px solid var(--line);border-radius:9px;background:none;padding:2px;cursor:pointer}
+  .row .hex{width:80px;font:600 .8rem ui-monospace,monospace;background:#100c0a;color:var(--gold);border:1px solid var(--line);border-radius:8px;padding:6px 8px;text-align:center}
+  .actions{padding:14px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
+  .btn{flex:1;min-width:120px;padding:11px;border-radius:10px;border:1px solid var(--line);background:#2c241f;color:var(--txt);font-weight:600;font-size:.86rem;cursor:pointer}
+  .btn.primary{background:var(--gold);color:#23180c;border-color:transparent}
+  .btn:active{transform:scale(.98)}
+  textarea{width:100%;margin-top:10px;height:120px;background:#100c0a;color:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px;font:.74rem ui-monospace,monospace;resize:vertical}
+  /* Aperçu */
+  .preview{position:relative;min-width:0}
+  .preview iframe{width:100%;height:100%;border:0;background:#fff}
+  .tabs{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:6px;background:rgba(23,19,17,.85);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:999px;padding:5px}
+  .tab{padding:7px 16px;border-radius:999px;font-size:.82rem;font-weight:600;color:var(--soft);cursor:pointer;border:0;background:none}
+  .tab.on{background:var(--gold);color:#23180c}
+  .toast{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:var(--gold);color:#23180c;font-weight:700;font-size:.82rem;padding:9px 16px;border-radius:999px;opacity:0;transition:opacity .25s;z-index:6}
+  .toast.show{opacity:1}
+  @media(max-width:820px){
+    body{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+    .panel{border-right:0;border-bottom:1px solid var(--line);max-height:46svh}
+  }
+</style>
+</head>
+<body>
+  <aside class="panel">
+    <div class="ph">
+      <h1>🎨 Réglage des couleurs</h1>
+      <p>Joue avec la palette — l'aperçu se met à jour en direct. « Exporter » copie la palette à m'envoyer.</p>
+    </div>
+    <div class="ctrls" id="ctrls"></div>
+    <div class="actions">
+      <button class="btn" id="reset">↺ Réinitialiser</button>
+      <button class="btn primary" id="export">⬇ Exporter la palette</button>
+      <textarea id="out" readonly placeholder="La palette exportée s'affiche ici…"></textarea>
+    </div>
+  </aside>
+
+  <main class="preview">
+    <div class="tabs">
+      <button class="tab on" data-src="index.html">Vitrine</button>
+      <button class="tab" data-src="bio.html">Lien bio</button>
+    </div>
+    <iframe id="prev" src="index.html" title="Aperçu du site"></iframe>
+    <div class="toast" id="toast">Palette copiée ✓</div>
+  </main>
+
+<script>
+  var ROLES = [
+    {k:'--paper',    label:'Fond',        sub:'crème de la page',         def:'#f7ead9'},
+    {k:'--oat',      label:'Sections claires', sub:'bloc « approche »',    def:'#ece2d2'},
+    {k:'--forest',   label:'Foncé',       sub:'hero, titres, sections sombres (+ dégradé)', def:'#2a2016', dark:true},
+    {k:'--ink',      label:'Texte',       sub:'corps de texte',           def:'#2e2418'},
+    {k:'--ink-soft', label:'Texte doux',  sub:'sous-titres, légendes',    def:'#6a5d4a'},
+    {k:'--brass',    label:'Accent / or', sub:'boutons WhatsApp, labels', def:'#b5894a'},
+    {k:'--brass-2',  label:'Or clair',    sub:'survols, chiffres',        def:'#caa163'},
+    {k:'--sage',     label:'Sauge',       sub:'accents discrets',         def:'#9f9280'}
+  ];
+  var state = {};
+  ROLES.forEach(function(r){ state[r.k] = r.def; });
+
+  function lighten(hex, amt){
+    hex = hex.replace('#','');
+    if(hex.length===3) hex = hex.split('').map(function(c){return c+c;}).join('');
+    var r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);
+    function up(x){ return Math.round(x+(255-x)*amt); }
+    return '#'+[up(r),up(g),up(b)].map(function(x){return x.toString(16).padStart(2,'0');}).join('');
+  }
+
+  var prev = document.getElementById('prev');
+  function docRoot(){ try{ return prev.contentDocument.documentElement; }catch(e){ return null; } }
+
+  function applyOne(k, v){
+    var root = docRoot(); if(!root) return;
+    root.style.setProperty(k, v);
+    if(k === '--forest'){
+      root.style.setProperty('--dark1', v);
+      root.style.setProperty('--dark2', lighten(v, .07));
+      root.style.setProperty('--dark3', lighten(v, .14));
+    }
+  }
+  function applyAll(){ Object.keys(state).forEach(function(k){ applyOne(k, state[k]); }); }
+
+  // Construire les contrôles
+  var box = document.getElementById('ctrls');
+  ROLES.forEach(function(r){
+    var row = document.createElement('div'); row.className='row';
+    row.innerHTML =
+      '<label>'+r.label+'<small>'+r.sub+'</small></label>'+
+      '<input type="color" value="'+r.def+'" data-k="'+r.k+'">'+
+      '<input class="hex" type="text" value="'+r.def+'" data-hex="'+r.k+'" maxlength="7">';
+    box.appendChild(row);
+  });
+  function setRole(k, v, fromHex){
+    v = v.toLowerCase(); state[k]=v; applyOne(k,v);
+    var col = box.querySelector('input[type=color][data-k="'+k+'"]');
+    var hx  = box.querySelector('input[data-hex="'+k+'"]');
+    if(!fromHex && hx) hx.value=v;
+    if(col && /^#[0-9a-f]{6}$/.test(v)) col.value=v;
+  }
+  box.addEventListener('input', function(e){
+    var t=e.target;
+    if(t.dataset.k){ setRole(t.dataset.k, t.value, false); }
+    else if(t.dataset.hex){ if(/^#[0-9a-f]{6}$/i.test(t.value)) setRole(t.dataset.hex, t.value, true); }
+  });
+
+  prev.addEventListener('load', applyAll);
+
+  // Onglets vitrine / bio
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
+      tab.classList.add('on');
+      prev.src = tab.dataset.src;   // applyAll se relance au load
+    });
+  });
+
+  // Export
+  var toast=document.getElementById('toast');
+  document.getElementById('export').addEventListener('click', function(){
+    var lines = ROLES.map(function(r){ return '  '+r.k+': '+state[r.k]+';'; });
+    var f = state['--forest'];
+    lines.push('  --dark1: '+f+'; --dark2: '+lighten(f,.07)+'; --dark3: '+lighten(f,.14)+';');
+    var css = ':root{\n'+lines.join('\n')+'\n}';
+    document.getElementById('out').value = css;
+    if(navigator.clipboard) navigator.clipboard.writeText(css).catch(function(){});
+    toast.classList.add('show'); setTimeout(function(){toast.classList.remove('show');}, 1600);
+  });
+
+  // Reset
+  document.getElementById('reset').addEventListener('click', function(){
+    ROLES.forEach(function(r){ setRole(r.k, r.def, false); });
+    document.getElementById('out').value='';
+  });
+</script>
+</body>
+</html>
