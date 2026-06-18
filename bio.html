@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Véronique Meulensteen — Reconnexion à soi · Prendre rendez-vous</title>
+<meta name="description" content="Véronique Meulensteen, kinésiologue agréée ASCA. Séances Reconnexion à soi — soins énergétiques & toucher thérapeutique. À Salavaux et à domicile (Vully). Prendre rendez-vous." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Véronique Meulensteen — Reconnexion à soi" />
+<meta property="og:description" content="Un espace pour déposer ce qui est trop lourd. Prendre rendez-vous sur WhatsApp." />
+<meta name="theme-color" content="#1f2d27" />
+
+<!-- MESURE cookieless (à activer avec le domaine final + compte Plausible) -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--paper:#f6f0e5;--brass:#b5894a;--brass-2:#caa163;
+    --serif:'Fraunces',Georgia,serif;--sans:'Hanken Grotesk',system-ui,-apple-system,sans-serif;}
+  body{font-family:var(--sans);background:linear-gradient(170deg,#1b2722,#243430 60%,#2c3d33);color:var(--paper);
+       min-height:100svh;display:flex;justify-content:center;padding:clamp(20px,6vw,40px) 20px;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+  body::before{content:"";position:absolute;top:-10%;right:-25%;width:80%;height:60%;background:radial-gradient(circle,rgba(181,137,74,.16),transparent 62%);pointer-events:none}
+  .col{width:100%;max-width:464px;position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;animation:rise .6s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+  .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;margin-bottom:16px;border:2px solid var(--brass);box-shadow:0 12px 28px -12px rgba(0,0,0,.6)}
+  h1{font-family:var(--serif);font-weight:600;font-size:1.62rem;letter-spacing:-.01em;text-align:center;line-height:1.1}
+  .sub{margin-top:9px;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--brass-2);text-align:center}
+  .loc{margin-top:6px;font-size:.92rem;color:rgba(246,240,229,.72);text-align:center}
+
+  .cta{width:100%;margin-top:24px;display:flex;align-items:center;justify-content:center;gap:.6em;
+       background:var(--brass);color:#23180c;font-weight:700;font-size:1.06rem;
+       padding:1.05em 1.2em;border-radius:16px;border:0;cursor:pointer;box-shadow:0 14px 30px -14px rgba(181,137,74,.9);
+       transition:transform .15s,background .2s;text-decoration:none}
+  .cta:hover{background:var(--brass-2)}.cta:active{transform:scale(.985)}.cta svg{width:22px;height:22px}
+
+  .links{width:100%;margin-top:14px;display:flex;flex-direction:column;gap:12px}
+  .lnk{display:flex;align-items:center;gap:14px;min-height:62px;padding:14px 16px;border-radius:14px;
+       background:rgba(246,240,229,.06);border:1px solid rgba(246,240,229,.16);color:var(--paper);
+       text-decoration:none;transition:transform .15s,background .2s,border-color .2s}
+  .lnk:hover{background:rgba(246,240,229,.1);border-color:var(--brass-2)}.lnk:active{transform:scale(.99)}
+  .lnk .ic{width:40px;height:40px;flex:none;border-radius:11px;background:rgba(202,161,99,.16);color:var(--brass-2);display:grid;place-items:center}
+  .lnk .ic svg{width:21px;height:21px}.lnk .t{flex:1}
+  .lnk .t b{display:block;font-weight:600;font-size:1.02rem;line-height:1.15}
+  .lnk .t small{font-size:.82rem;color:rgba(246,240,229,.62)}
+  .lnk .chev{color:rgba(246,240,229,.4)}.lnk .chev svg{width:16px;height:16px}
+
+  .full{margin-top:22px;font-size:.95rem;color:var(--brass-2);text-decoration:none;font-weight:600;border-bottom:1px solid transparent;transition:border-color .2s}
+  .full:hover{border-color:var(--brass-2)}
+  footer{margin-top:28px;font-size:.74rem;color:rgba(246,240,229,.5);text-align:center;line-height:1.5}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  :focus-visible{outline:3px solid var(--brass-2);outline-offset:3px;border-radius:6px}
+</style>
+</head>
+<body>
+  <main class="col">
+    <img class="avatar" src="assets/profile.jpg" alt="Véronique Meulensteen" />
+    <h1>Véronique Meulensteen</h1>
+    <p class="sub">Kinésiologue agréée ASCA · Reconnexion à soi</p>
+    <p class="loc">Salavaux &amp; région du Vully · à domicile</p>
+
+    <a class="cta" id="cta-wa" href="#">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 00-7.7 13.6L3 21l4.5-1.2A9 9 0 1012 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      Prendre rendez-vous
+    </a>
+
+    <nav class="links" id="links"></nav>
+    <a class="full" id="lnk-full" href="#">→ Découvrir mon accompagnement</a>
+    <footer>© <span id="y"></span> Véronique Meulensteen · Kinésiologue agréée ASCA</footer>
+  </main>
+
+<script>
+  // ====== CONFIG ======
+  var VITRINE = "https://veronique-reconnexionasoi.onrender.com";
+  var WA      = "41787189596";
+  var TEL     = "+41787189596";
+  var UTM     = "utm_source=ig&utm_medium=bio&utm_campaign=linkinbio";
+  // =====================
+  function v(path, content){
+    var hash="",p=path,i=path.indexOf('#'); if(i>=0){hash=path.slice(i);p=path.slice(0,i);}
+    var sep=p.indexOf('?')>=0?'&':'?';
+    return VITRINE+p+sep+UTM+"&utm_content="+content+hash;
+  }
+  var waText="Bonjour Véronique,%0AJe vous contacte depuis Instagram.%0AJe souhaiterais des informations / un rendez-vous pour une séance Reconnexion à soi.";
+  document.getElementById('cta-wa').href="https://wa.me/"+WA+"?text="+waText;
+
+  var ICON={
+    soin:'<path d="M12 21s-7-4.4-9.3-8.3C1 9.6 2.7 6 6 6c2 0 3.2 1.2 4 2.3C10.8 7.2 12 6 14 6c3.3 0 5 3.6 3.3 6.7C19 16.6 12 21 12 21z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
+    seance:'<circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+    moi:'<circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+    tel:'<path d="M5 4h3l2 5-2.5 1.5a11 11 0 005 5L14 13l5 2v3a2 2 0 01-2 2A15 15 0 013 6a2 2 0 012-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>'
+  };
+  var chev='<svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var ITEMS=[
+    {ic:'soin',  b:'Ce que la séance apporte', s:'Déposer le trop-plein, libérer les tensions', href:v('/index.html','benefices')},
+    {ic:'seance',b:'Comment ça se passe & tarif',s:'Séance ~1h, à domicile ou à Salavaux',       href:v('/index.html#seance','seance')},
+    {ic:'moi',   b:'Qui je suis',                s:'Kinésiologue ASCA, j’accompagne depuis mon vécu', href:v('/index.html','about')},
+    {ic:'tel',   b:'M’appeler',             s:TEL,                                            href:'tel:'+TEL}
+  ];
+  var box=document.getElementById('links');
+  ITEMS.forEach(function(it){
+    var a=document.createElement('a');a.className='lnk';a.href=it.href;
+    if(/^https?:/.test(it.href)){a.target='_blank';a.rel='noopener';}
+    a.innerHTML='<span class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true">'+ICON[it.ic]+'</svg></span>'+
+                '<span class="t"><b>'+it.b+'</b><small>'+it.s+'</small></span>'+
+                '<span class="chev">'+chev+'</span>';
+    box.appendChild(a);
+  });
+  document.getElementById('lnk-full').href=v('/index.html','accueil');
+  document.getElementById('y').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
