@@ -51,6 +51,7 @@
     <div class="actions">
       <button class="btn" id="reset">↺ Réinitialiser</button>
       <button class="btn primary" id="export">⬇ Exporter la palette</button>
+      <button class="btn primary" id="apply-site" style="background:#1f8a4c">⚡ Appliquer à mon site</button>
       <textarea id="out" readonly placeholder="La palette exportée s'affiche ici…"></textarea>
     </div>
   </aside>
@@ -151,6 +152,16 @@
     ROLES.forEach(function(r){ setRole(r.k, r.def, false); });
     document.getElementById('out').value='';
   });
+
+  var SBK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFvZG56dHFzYXdzb2ZpbWJzZmhiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NTQ1MTEsImV4cCI6MjA5MjQzMDUxMX0.gXOfYw6BjImESFcmrmkRaPsNGkTMEuKiWovEgqMuqIs";
+  var _asb=document.getElementById('apply-site');
+  if(_asb){_asb.addEventListener('click',function(){
+    var f=state['--forest'];
+    var pal={paper:state['--paper'],oat:state['--oat'],forest:f,'forest-2':lighten(f,.05),dark1:f,dark2:lighten(f,.07),dark3:lighten(f,.14),ink:state['--ink'],'ink-soft':state['--ink-soft'],brass:state['--brass'],'brass-2':state['--brass-2'],sage:state['--sage']};
+    function _flash(t){toast.textContent=t;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show');toast.textContent='Palette copiée ✓';},2400);}
+    fetch("https://qodnztqsawsofimbsfhb.supabase.co/rest/v1/site_palette?on_conflict=slug",{method:"POST",headers:{apikey:SBK,Authorization:"Bearer "+SBK,"Content-Type":"application/json","Prefer":"resolution=merge-duplicates"},body:JSON.stringify({slug:"veronique-meulensteen",palette:pal})}).then(function(r){_flash(r.ok?"Appliqué à ton site ✓ (recharge)":"Erreur "+r.status);}).catch(function(){_flash("Erreur réseau");});
+  });}
+
 </script>
 </body>
 </html>

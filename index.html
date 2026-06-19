@@ -271,5 +271,13 @@
   ["hdr-wa","hero-wa","seance-wa","band-wa"].forEach(function(id){ var el=document.getElementById(id); if(el) el.href=href; });
   document.getElementById('y').textContent = new Date().getFullYear();
 </script>
+<script>
+(function(){if(window.self!==window.top)return;
+var KK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFvZG56dHFzYXdzb2ZpbWJzZmhiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NTQ1MTEsImV4cCI6MjA5MjQzMDUxMX0.gXOfYw6BjImESFcmrmkRaPsNGkTMEuKiWovEgqMuqIs";var U="https://qodnztqsawsofimbsfhb.supabase.co/rest/v1/site_palette?slug=eq.veronique-meulensteen&select=palette";var DV=["forest","forest-2","dark1","dark2","dark3","ink","ink-soft"];
+function lm(h){h=(h||"").replace("#","");if(h.length==3)h=h.replace(/(.)/g,"$1$1");if(h.length<6)return 1;return(parseInt(h.substr(0,2),16)*0.2126+parseInt(h.substr(2,2),16)*0.7152+parseInt(h.substr(4,2),16)*0.0722)/255;}
+function dk(h){h=h.replace("#","");if(h.length==3)h=h.replace(/(.)/g,"$1$1");return"#"+[0,2,4].map(function(i){return("0"+Math.round(parseInt(h.substr(i,2),16)*0.38).toString(16)).slice(-2);}).join("");}
+fetch(U,{headers:{apikey:KK,Authorization:"Bearer "+KK}}).then(function(r){return r.json();}).then(function(d){if(!d||!d[0]||!d[0].palette)return;var p=d[0].palette,rt=document.documentElement;Object.keys(p).forEach(function(k){var v=p[k];if(!v)return;if(DV.indexOf(k)>=0&&lm(v)>0.5)v=dk(v);rt.style.setProperty("--"+k,v);});}).catch(function(){});
+})();
+</script>
 </body>
 </html>
